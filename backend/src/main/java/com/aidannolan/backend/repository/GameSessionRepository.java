@@ -1,0 +1,4 @@
+package com.aidannolan.backend.repository;
+
+public interface GameSessionRepository {
+}
