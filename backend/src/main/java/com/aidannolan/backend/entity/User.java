@@ -35,4 +35,12 @@ public class User extends BaseEntity {
     )
     @Builder.Default
     private List<GameSession> gameSessions = new ArrayList<>();
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean enabled = true;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean accountLocked = false;
 }

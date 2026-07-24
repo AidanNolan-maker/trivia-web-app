@@ -1,4 +1,14 @@
 package com.aidannolan.backend.dto.auth;
 
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
 public class LoginResponseDTO {
+    private String token;
+
+    private String username;
+
+    private String role;
 }
