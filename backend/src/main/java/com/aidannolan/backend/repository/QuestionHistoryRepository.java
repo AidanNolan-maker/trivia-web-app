@@ -1,4 +1,7 @@
 package com.aidannolan.backend.repository;
 
-public interface QuestionHistoryRepository {
+import com.aidannolan.backend.entity.QuestionHistory;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface QuestionHistoryRepository extends JpaRepository<QuestionHistory,Long> {
 }

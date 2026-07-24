@@ -1,4 +1,7 @@
 package com.aidannolan.backend.repository;
 
-public interface GameSessionRepository {
+import com.aidannolan.backend.entity.GameSession;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GameSessionRepository extends JpaRepository<GameSession, Long> {
 }
