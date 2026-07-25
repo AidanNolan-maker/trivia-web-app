@@ -3,6 +3,7 @@ package com.aidannolan.backend.mapper;
 import com.aidannolan.backend.dto.auth.LoginResponseDTO;
 import com.aidannolan.backend.dto.auth.RegisterRequestDTO;
 import com.aidannolan.backend.dto.auth.RegisterResponseDTO;
+import com.aidannolan.backend.dto.user.CurrentUserResponseDTO;
 import com.aidannolan.backend.entity.User;
 import org.mapstruct.Mapper;
 
@@ -13,4 +14,7 @@ public interface UserMapper {
     RegisterResponseDTO toRegisterResponseDTO(User user);
 
     LoginResponseDTO toLoginResponseDTO(User user);
+
+    CurrentUserResponseDTO toCurrentUserResponseDTO(User user);
+
 }
