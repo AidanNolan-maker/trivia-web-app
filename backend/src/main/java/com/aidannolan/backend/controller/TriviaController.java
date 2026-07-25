@@ -1,5 +1,6 @@
 package com.aidannolan.backend.controller;
 
+import com.aidannolan.backend.dto.trivia.CategoryDTO;
 import com.aidannolan.backend.dto.trivia.QuestionDTO;
 import com.aidannolan.backend.enums.Difficulty;
 import com.aidannolan.backend.service.trivia.TriviaService;
@@ -29,5 +30,10 @@ public class TriviaController {
             Difficulty difficulty
     ) {
         return triviaService.getQuestions(amount, category, difficulty);
+    }
+
+    @GetMapping("/categories")
+    public List<CategoryDTO> getCategories() {
+        return triviaService.getCategories();
     }
 }
