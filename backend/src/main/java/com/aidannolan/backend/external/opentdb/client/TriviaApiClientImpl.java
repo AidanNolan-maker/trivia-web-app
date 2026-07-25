@@ -33,7 +33,20 @@ public class TriviaApiClientImpl implements TriviaApiClient {
     public List<OpenTriviaQuestion> getQuestions(int amount, Integer category, Difficulty difficulty) {
         OpenTriviaResponse response = openTriviaWebClient
                 .get()
-                .uri(buildQuestionUri(amount, category, difficulty))
+                .uri(uriBuilder -> {
+                    uriBuilder.path("/api.php")
+                            .queryParam("amount", amount);
+
+                    if (category != null) {
+                        uriBuilder.queryParam("category", category);
+                    }
+
+                    if (difficulty != null) {
+                        uriBuilder.queryParam("difficulty", difficulty.name().toLowerCase());
+                    }
+
+                    return uriBuilder.build();
+                })
                 .retrieve()
                 .bodyToMono(OpenTriviaResponse.class)
                 .block();

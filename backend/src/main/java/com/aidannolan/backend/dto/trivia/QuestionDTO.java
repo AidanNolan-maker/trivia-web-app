@@ -15,6 +15,8 @@ public class QuestionDTO {
 
     private Difficulty difficulty;
 
+    private String type;
+
     private String question;
 
     private List<String> answers;
