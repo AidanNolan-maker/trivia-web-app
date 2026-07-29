@@ -29,14 +29,14 @@ public class GameSession extends BaseEntity {
     @Column(nullable = false)
     private int totalQuestions;
 
-    @Column(nullable = false)
+    @Column
     private Integer categoryId;
 
-    @Column(nullable = false)
+    @Column
     private String categoryName;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column
     private Difficulty difficulty;
 
     @Column(nullable = false)
@@ -51,4 +51,11 @@ public class GameSession extends BaseEntity {
     )
     @Builder.Default
     private List<QuestionHistory> questionHistory = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "gameSession",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<GameQuestion> questions = new ArrayList<>();
 }
