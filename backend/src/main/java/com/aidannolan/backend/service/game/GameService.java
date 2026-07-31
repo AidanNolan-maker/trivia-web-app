@@ -17,4 +17,6 @@ public interface GameService {
     GameSessionResponseDTO getGame(Long gameId);
 
     Page<GameSummaryResponseDTO> getGames(Boolean finished, Difficulty difficulty, Integer categoryId, Pageable pageable);
+
+    void deleteGame(Long gameId);
 }

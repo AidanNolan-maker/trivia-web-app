@@ -12,10 +12,12 @@ import com.aidannolan.backend.external.opentdb.dto.OpenTriviaQuestion;
 import com.aidannolan.backend.repository.GameQuestionRepository;
 import com.aidannolan.backend.repository.GameSessionRepository;
 import com.aidannolan.backend.repository.UserRepository;
+import com.aidannolan.backend.specification.GameSessionSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -257,23 +259,15 @@ public class GameServiceImpl implements GameService {
     public Page<GameSummaryResponseDTO> getGames(Boolean finished, Difficulty difficulty, Integer categoryId, Pageable pageable) {
         User user = getCurrentUser();
 
-        Page<GameSession> games;
+        Specification<GameSession> specification = Specification
+                .where(GameSessionSpecifications.hasUserId(user.getId()))
+                .and(GameSessionSpecifications.isFinished(finished))
+                .and(GameSessionSpecifications.hasDifficulty(difficulty))
+                .and(GameSessionSpecifications.hasCategory(categoryId));
 
-        if (finished != null) {
-            if (finished) {
-                games = gameSessionRepository.findByUserIdAndFinishedAtIsNotNull(user.getId(), pageable);
-            } else {
-                games = gameSessionRepository.findByUserIdAndFinishedAtIsNull(user.getId(), pageable);
-            }
-        } else if (difficulty != null) {
-            games = gameSessionRepository.findByUserIdAndDifficulty(user.getId(), difficulty, pageable);
-        } else if (categoryId != null) {
-            games = gameSessionRepository.findByUserIdAndCategoryId(user.getId(), categoryId, pageable);
-        } else {
-            games = gameSessionRepository.findByUserId(user.getId(), pageable);
-        }
-
-        return games.map(this::toSummaryResponse);
+        return gameSessionRepository
+                .findAll(specification, pageable)
+                .map(this::toSummaryResponse);
     }
 
     private GameSummaryResponseDTO toSummaryResponse(GameSession gameSession) {
@@ -288,5 +282,18 @@ public class GameServiceImpl implements GameService {
                 .startedAt(gameSession.getStartedAt())
                 .finishedAt(gameSession.getFinishedAt())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void deleteGame(Long gameId) {
+        User user = getCurrentUser();
+
+        GameSession gameSession = gameSessionRepository
+                .findByIdAndUserId(gameId, user.getId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Game not found."));
+
+        gameSessionRepository.delete(gameSession);
     }
 }

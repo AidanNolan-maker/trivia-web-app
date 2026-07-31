@@ -21,4 +21,14 @@ public class UserStatisticsResponseDTO {
     private double averageScore;
 
     private int highestScore;
+
+    private double averageAccuracyPerGame;
+
+    private String favoriteCategory;
+
+    private String bestCategory;
+
+    private long currentWinStreak;
+
+    private long longestWinStreak;
 }
