@@ -7,6 +7,11 @@ export const registerSchema = z.object({
         .min(3, "Username must be at least 3 characters.")
         .max(50, "Username cannot exceed 50 characters."),
 
+    email: z
+        .string()
+        .trim()
+        .email("Please enter a valid email address."),
+
     password: z
         .string()
         .min(8, "Password must be at least 8 characters."),

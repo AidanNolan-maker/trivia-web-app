@@ -1,6 +1,7 @@
+import AuthCard from "../../../components/auth/AuthCard";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { loginSchema, type LoginFormData } from "../schemas/loginSchema";
 
@@ -39,50 +40,42 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="containter mt-5">
+        <AuthCard title="Login">
 
-            <div className="row justify-content-center">
+            <form onSubmit={handleSubmit(onSubmit)}>
 
-                <div className="col-md-6">
+                <div className="mb-3">
 
-                    <div className="card">
+                    <label className="form-label">Username</label>
+                    <input className="form-control" {...register("username")} />
 
-                        <div className="card-body">
-
-                            <h2 className="mb-4 text-center">Login</h2>
-
-                            <form onSubmit={handleSubmit(onSubmit)}>
-
-                                <div className="mb-3">
-
-                                    <label className="form-label">Username</label>
-                                    <input className="form-control" {...register("username")} />
-
-                                    <div className="text-danger">{errors.username?.message}</div>
-
-                                </div>
-
-                                <div className="mb-3">
-
-                                    <label className="form-label">Password</label>
-                                    <input type="password" className="form-control" {...register("password")} />
-
-                                    <div className="text-danger">{errors.password?.message}</div>
-
-                                </div>
-
-                                <button className="btn btn-primary w-100" disabled={isSubmitting}>Login</button>
-
-                            </form>
-
-                        </div>
-
-                    </div>
+                    <div className="text-danger">{errors.username?.message}</div>
 
                 </div>
 
-            </div>
+                <div className="mb-3">
 
-        </div>
+                    <label className="form-label">Password</label>
+                    <input type="password" className="form-control" {...register("password")} />
+
+                    <div className="text-danger">{errors.password?.message}</div>
+
+                </div>
+
+                <button className="btn btn-primary w-100" disabled={isSubmitting}>Login</button>
+
+            </form>
+
+            <hr />
+
+            <p className="text-center mb-0">
+
+                Don't have an account{" "}
+
+                <Link to="/register">Create one</Link>
+
+            </p>
+
+        </AuthCard>
     );
 }
